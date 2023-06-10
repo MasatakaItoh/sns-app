@@ -1,4 +1,7 @@
 export const getPath = {
   home: "/",
-  profile: "/profile/",
+  login: "/login",
+  register: "/register",
+  passwordReset: "/password-reset",
+  profile: "/profile",
 };

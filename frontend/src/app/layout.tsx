@@ -1,12 +1,8 @@
 import "./globals.css";
 
-import { Inter } from "next/font/google";
 import { FC, ReactNode } from "react";
 
-import { BaseLayout } from "@/components/Layouts";
 import { ChakraProvider } from "@/providers";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "SNS App",
@@ -20,10 +16,8 @@ type RootLayoutProps = {
 const RootLayout: FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="ja">
-      <body className={inter.className}>
-        <ChakraProvider>
-          <BaseLayout>{children}</BaseLayout>
-        </ChakraProvider>
+      <body>
+        <ChakraProvider>{children}</ChakraProvider>
       </body>
     </html>
   );
