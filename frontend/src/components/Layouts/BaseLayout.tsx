@@ -13,7 +13,7 @@ type BaseLayoutProps = {
 export const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
   return (
     <Flex>
-      <Box pl={10} w={"max(20%, 320px)"}>
+      <Box pl={16} w={"max(20%, 340px)"}>
         <LeftBar />
       </Box>
 
@@ -21,7 +21,7 @@ export const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
         {children}
       </Box>
 
-      <Box pr={10} w={"max(20%, 320px)"}>
+      <Box pr={16} w={"max(20%, 440px)"}>
         <RightBar />
       </Box>
     </Flex>
