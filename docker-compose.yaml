@@ -1,0 +1,10 @@
+version: '3.5'
+
+services:
+  mock:
+    image: stoplight/prism:4
+    ports:
+      - "3001:4010"
+    command: mock -h 0.0.0.0 /api.yaml
+    volumes:
+      - ./docs/api.yaml:/api.yaml

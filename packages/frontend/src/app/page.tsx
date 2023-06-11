@@ -1,6 +1,7 @@
 import { BaseLayout } from "@/components/Layouts";
-import { Post } from "@/components/Post";
 import { Share } from "@/components/Share";
+
+import { Post } from "../features/Post";
 
 const HomePage = () => {
   return (

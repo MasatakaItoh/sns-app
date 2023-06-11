@@ -1,0 +1,13 @@
+{
+  "name": "sns-app",
+  "version": "1.0.0",
+  "scripts": {
+    "generate-client-type": "openapi-typescript docs/api.yaml --output packages/share/types/api.ts"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "openapi-typescript": "^6.2.6"
+  }
+}

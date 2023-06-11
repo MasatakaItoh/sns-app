@@ -1,6 +1,7 @@
-import { Post } from "@/components/Post";
 import { Profile } from "@/components/Profile";
 import { Share } from "@/components/Share";
+
+import { Post } from "../../features/Post";
 
 const ProfilePage = () => {
   return (

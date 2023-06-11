@@ -98,14 +98,14 @@ postsRouter.put("/:id/likes", async (req, res) => {
 /**
  * タイムラインの投稿を取得する
  */
-postsRouter.get("/timeline/all", async (req, res) => {
+postsRouter.get("/timeline/:userId", async (req, res) => {
   try {
-    const currentUser = await UserModel.findById(req.body.userId);
+    const currentUser = await UserModel.findById(req.params.userId);
     const userPosts = await PostModel.find({ userId: currentUser?._id });
     const followingsPosts = await Promise.all(
       (currentUser?.followings ?? []).map((id) => {
         return PostModel.find({ userId: id });
-      }),
+      })
     );
     res.status(200).json(userPosts.concat(...followingsPosts));
   } catch (err) {
