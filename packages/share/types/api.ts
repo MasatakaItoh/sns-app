@@ -6,7 +6,7 @@
 
 export interface paths {
   "/api/posts": {
-    /** 投稿作成 */
+    /** 投稿を作成する */
     post: {
       requestBody?: {
         content: {
@@ -14,14 +14,161 @@ export interface paths {
         };
       };
       responses: {
-        /** @description 正常系 */
+        /** @description OK */
         200: {
           content: {
             "application/json": components["schemas"]["Post"];
           };
         };
+        /** @description Not Found */
+        404: never;
         /** @description Internal Server Error */
         500: never;
+      };
+    };
+  };
+  "/api/posts/{id}": {
+    /** 投稿を取得する */
+    get: {
+      parameters: {
+        path: {
+          id: string;
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Post"];
+          };
+        };
+        /** @description Not Found */
+        404: never;
+        /** @description Internal Server Error */
+        500: never;
+      };
+    };
+    /** 投稿を更新する */
+    put: {
+      parameters: {
+        path: {
+          id: string;
+        };
+      };
+      requestBody?: {
+        content: {
+          "application/json": components["schemas"]["Post"];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: never;
+        /**
+         * @description 以下の条件を満たさない場合、Forbidden
+         * - リクエストユーザー自身の投稿
+         */
+        403: never;
+        /** @description Not Found */
+        404: never;
+        /** @description Internal Server Error */
+        500: never;
+      };
+    };
+    /** 投稿を削除する */
+    delete: {
+      parameters: {
+        path: {
+          id: string;
+        };
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            userId: string;
+          };
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: never;
+        /**
+         * @description 以下の条件を満たさない場合、Forbidden
+         * - リクエストユーザー自身の投稿
+         */
+        403: never;
+        /** @description Not Found */
+        404: never;
+        /** @description Internal Server Error */
+        500: never;
+      };
+    };
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+  };
+  "/api/posts/{id}/likes": {
+    /** 投稿にいいねする */
+    put: {
+      parameters: {
+        path: {
+          id: string;
+        };
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            userId: string;
+          };
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: never;
+        /** @description Not Found */
+        404: never;
+        /** @description Internal Server Error */
+        500: never;
+      };
+    };
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+  };
+  "/api/posts/timeline/{userId}": {
+    /** タイムラインの投稿を取得する */
+    get: {
+      parameters: {
+        path: {
+          userId: string;
+        };
+      };
+      requestBody?: {
+        content: {
+          "application/json": {
+            userId: string;
+          };
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          content: {
+            "application/json": (components["schemas"]["Post"])[];
+          };
+        };
+        /** @description Not Found */
+        404: never;
+        /** @description Internal Server Error */
+        500: never;
+      };
+    };
+    parameters: {
+      path: {
+        userId: string;
       };
     };
   };
@@ -31,6 +178,11 @@ export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
+    /** Error */
+    Error: {
+      /** @description エラーメッセージ */
+      error?: (string)[];
+    };
     /** 投稿 */
     Post: {
       userId: string;

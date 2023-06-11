@@ -19,6 +19,18 @@ postsRouter.post("/", async (req, res) => {
 });
 
 /**
+ * 投稿を取得する
+ */
+postsRouter.get("/:id", async (req, res) => {
+  try {
+    const post = await PostModel.findById(req.params.id);
+    return res.status(200).json(post);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
+/**
  * 投稿を更新する
  */
 postsRouter.put("/:id", async (req, res) => {
@@ -34,7 +46,7 @@ postsRouter.put("/:id", async (req, res) => {
       return res.status(403).json("あなたは他の人の投稿内容を更新できません");
     }
   } catch (err) {
-    return res.status(403).json(err);
+    return res.status(500).json(err);
   }
 });
 
@@ -51,18 +63,6 @@ postsRouter.delete("/:id", async (req, res) => {
     } else {
       return res.status(403).json("あなたは他の人の投稿を削除できません");
     }
-  } catch (err) {
-    return res.status(403).json(err);
-  }
-});
-
-/**
- * 特定の投稿を取得する
- */
-postsRouter.get("/:id", async (req, res) => {
-  try {
-    const post = await PostModel.findById(req.params.id);
-    return res.status(200).json(post);
   } catch (err) {
     return res.status(403).json(err);
   }
