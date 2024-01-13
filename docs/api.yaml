@@ -7,9 +7,9 @@ info:
 
 servers:
   - url: http://localhost:4000
-    description: ローカル
+    description: local
   - url: http://localhost:3001
-    description: モック
+    description: mock
 
 tags:
   - name: auth
@@ -20,175 +20,20 @@ tags:
     description: ユーザーの操作
 
 paths:
+  /api/users/:
+    $ref: "./paths/users.yaml#/users"
+  /api/users/{id}:
+    $ref: "./paths/users.yaml#/user"
   /api/posts:
-    post:
-      summary: 投稿を作成する
-      tags:
-        - posts
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Post'
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Post'
-              example:
-                userId: '1'
-                desc: '投稿本文'
-                img: 'https://placehold.jp/600x400.png'
-                likes: ['1']
-        '404':
-          description: Not Found
-        500:
-          description: Internal Server Error
+    $ref: "./paths/posts.yaml#/posts"
   /api/posts/{id}:
-    parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-    get:
-      summary: 投稿を取得する
-      tags:
-        - posts
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Post'
-              example:
-                userId: '1'
-                desc: '投稿本文'
-                img: 'https://placehold.jp/600x400.png'
-                likes: ['1']
-        '404':
-          description: Not Found
-        500:
-          description: Internal Server Error
-    put:
-      summary: 投稿を更新する
-      tags:
-        - posts
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Post'
-      responses:
-        200:
-          description: OK
-        403:
-          description: |
-            以下の条件を満たさない場合、Forbidden
-            - リクエストユーザー自身の投稿
-        '404':
-          description: Not Found
-        500:
-          description: Internal Server Error
-    delete:
-      summary: 投稿を削除する
-      tags:
-        - posts
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                userId:
-                  type: string
-              required:
-                - userId
-      responses:
-        200:
-          description: OK
-        403:
-          description: |
-            以下の条件を満たさない場合、Forbidden
-            - リクエストユーザー自身の投稿
-        '404':
-          description: Not Found
-        500:
-          description: Internal Server Error
+    $ref: "./paths/posts.yaml#/post"
   /api/posts/{id}/likes:
-    parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-    put:
-      summary: 投稿にいいねする
-      tags:
-        - posts
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                userId:
-                  type: string
-              required:
-                - userId
-      responses:
-        200:
-          description: OK
-        '404':
-          description: Not Found
-        500:
-          description: Internal Server Error
+    $ref: "./paths/posts.yaml#/likes"
   /api/posts/timeline/{userId}:
-    parameters:
-      - name: userId
-        in: path
-        required: true
-        schema:
-          type: string
-    get:
-      summary: タイムラインの投稿を取得する
-      tags:
-        - posts
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                userId:
-                  type: string
-              required:
-                - userId
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Post'
-              example:
-                - userId: '1'
-                  desc: '投稿本文'
-                  img: 'https://placehold.jp/600x400.png'
-                  likes: [ '1' ]
-                - userId: '2'
-                  desc: '投稿本文'
-                  img: 'https://placehold.jp/600x400.png'
-                  likes: [ '2' ]
-        '404':
-          description: Not Found
-        500:
-          description: Internal Server Error
+    $ref: "./paths/posts.yaml#/timeline"
+  /api/posts/profile/timeline/{userName}:
+    $ref: "./paths/posts.yaml#/profileTimeline"
 
 components:
   schemas:
@@ -201,18 +46,7 @@ components:
           description: エラーメッセージ
           items:
             type: string
+    User:
+      $ref: "./schemas/users.yaml#/user"
     Post:
-      title: 投稿
-      type: object
-      properties:
-        userId:
-          type: string
-        desc:
-          type: string
-          maxLength: 200
-        img:
-          type: string
-        likes:
-          type: array
-      required:
-        - userId
+      $ref: "./schemas/posts.yaml#/post"

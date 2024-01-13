@@ -1,0 +1,180 @@
+posts:
+  post:
+    tags:
+      - posts
+    summary: 投稿を作成する
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/posts.yaml#/post"
+    responses:
+      200:
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/posts.yaml#/post"
+      404:
+        description: Not Found
+      500:
+        description: Internal Server Error
+
+post:
+  get:
+    tags:
+      - posts
+    summary: 投稿を取得する
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/posts.yaml#/post"
+      404:
+        description: Not Found
+      500:
+        description: Internal Server Error
+  put:
+    tags:
+      - posts
+    summary: 投稿を更新する
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/posts.yaml#/post"
+    responses:
+      200:
+        description: OK
+      403:
+        description: |
+          以下の条件を満たさない場合、Forbidden
+          - リクエストユーザー自身の投稿
+      404:
+        description: Not Found
+      500:
+        description: Internal Server Error
+  delete:
+    tags:
+      - posts
+    summary: 投稿を削除する
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+            required:
+              - userId
+    responses:
+      200:
+        description: OK
+      403:
+        description: |
+          以下の条件を満たさない場合、Forbidden
+          - リクエストユーザー自身の投稿
+      404:
+        description: Not Found
+      500:
+        description: Internal Server Error
+
+likes:
+  put:
+    tags:
+      - posts
+    summary: 投稿にいいねする
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+            required:
+              - userId
+    responses:
+      200:
+        description: OK
+      404:
+        description: Not Found
+      500:
+        description: Internal Server Error
+
+timeline:
+  get:
+    tags:
+      - posts
+    summary: タイムラインの投稿を取得する
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "../schemas/posts.yaml#/post"
+      404:
+        description: Not Found
+      500:
+        description: Internal Server Error
+
+profileTimeline:
+  get:
+    tags:
+      - posts
+    summary: プロフィールのタイムラインの投稿を取得する
+    parameters:
+      - name: userName
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "../schemas/posts.yaml#/post"
+      404:
+        description: Not Found
+      500:
+        description: Internal Server Error

@@ -1,0 +1,46 @@
+user:
+  type: object
+  properties:
+    _id:
+      type: string
+      example: "1"
+    userName:
+      type: string
+      example: "ユーザー名"
+    email:
+      type: string
+      example: "test@test.com"
+      maxLength: 200
+    password:
+      type: string
+      example: "testtest"
+    profilePicture:
+      type: string
+      example: "sample.png"
+    coverPicture:
+      type: string
+      example: "sample.png"
+    followers:
+      type: array
+      items:
+        type: string
+      example: ["1"]
+    followings:
+      type: array
+      items:
+        type: string
+      example: ["1"]
+    isAdmin:
+      type: boolean
+      example: false
+    desc:
+      type: string
+      example: "ユーザーの説明文"
+    city:
+      type: string
+      example: "東京都"
+  required:
+    - _id
+    - userName
+    - email
+    - password

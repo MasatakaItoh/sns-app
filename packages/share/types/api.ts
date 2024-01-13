@@ -5,19 +5,163 @@
 
 
 export interface paths {
-  "/api/posts": {
-    /** 投稿を作成する */
-    post: {
-      requestBody?: {
-        content: {
-          "application/json": components["schemas"]["Post"];
+  "/api/users/": {
+    /** クエリでユーザー情報を取得する */
+    get: {
+      parameters: {
+        query: {
+          name: string;
         };
       };
       responses: {
         /** @description OK */
         200: {
           content: {
-            "application/json": components["schemas"]["Post"];
+            "application/json": {
+              /** @example 1 */
+              _id: string;
+              /** @example ユーザー名 */
+              userName: string;
+              /** @example test@test.com */
+              email: string;
+              /** @example testtest */
+              password: string;
+              /** @example sample.png */
+              profilePicture?: string;
+              /** @example sample.png */
+              coverPicture?: string;
+              /**
+               * @example [
+               *   "1"
+               * ]
+               */
+              followers?: (string)[];
+              /**
+               * @example [
+               *   "1"
+               * ]
+               */
+              followings?: (string)[];
+              /** @example false */
+              isAdmin?: boolean;
+              /** @example ユーザーの説明文 */
+              desc?: string;
+              /** @example 東京都 */
+              city?: string;
+            };
+          };
+        };
+        /** @description Not Found */
+        404: never;
+        /** @description Internal Server Error */
+        500: never;
+      };
+    };
+  };
+  "/api/users/{id}": {
+    /** ユーザー情報を取得する */
+    get: {
+      parameters: {
+        path: {
+          id: string;
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          content: {
+            "application/json": {
+              /** @example 1 */
+              _id: string;
+              /** @example ユーザー名 */
+              userName: string;
+              /** @example test@test.com */
+              email: string;
+              /** @example testtest */
+              password: string;
+              /** @example sample.png */
+              profilePicture?: string;
+              /** @example sample.png */
+              coverPicture?: string;
+              /**
+               * @example [
+               *   "1"
+               * ]
+               */
+              followers?: (string)[];
+              /**
+               * @example [
+               *   "1"
+               * ]
+               */
+              followings?: (string)[];
+              /** @example false */
+              isAdmin?: boolean;
+              /** @example ユーザーの説明文 */
+              desc?: string;
+              /** @example 東京都 */
+              city?: string;
+            };
+          };
+        };
+        /** @description Not Found */
+        404: never;
+        /** @description Internal Server Error */
+        500: never;
+      };
+    };
+  };
+  "/api/posts": {
+    /** 投稿を作成する */
+    post: {
+      requestBody?: {
+        content: {
+          "application/json": {
+            /** @example 1 */
+            _id: string;
+            /** @example 1 */
+            userId: string;
+            /** @example 投稿本文 */
+            desc?: string;
+            /** @example https://placehold.jp/600x400.png */
+            img?: string;
+            /**
+             * @example [
+             *   "1"
+             * ]
+             */
+            likes?: (string)[];
+            /** @example */
+            createdAt: string;
+            /** @example */
+            updatedAt: string;
+          };
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          content: {
+            "application/json": {
+              /** @example 1 */
+              _id: string;
+              /** @example 1 */
+              userId: string;
+              /** @example 投稿本文 */
+              desc?: string;
+              /** @example https://placehold.jp/600x400.png */
+              img?: string;
+              /**
+               * @example [
+               *   "1"
+               * ]
+               */
+              likes?: (string)[];
+              /** @example */
+              createdAt: string;
+              /** @example */
+              updatedAt: string;
+            };
           };
         };
         /** @description Not Found */
@@ -39,7 +183,26 @@ export interface paths {
         /** @description OK */
         200: {
           content: {
-            "application/json": components["schemas"]["Post"];
+            "application/json": {
+              /** @example 1 */
+              _id: string;
+              /** @example 1 */
+              userId: string;
+              /** @example 投稿本文 */
+              desc?: string;
+              /** @example https://placehold.jp/600x400.png */
+              img?: string;
+              /**
+               * @example [
+               *   "1"
+               * ]
+               */
+              likes?: (string)[];
+              /** @example */
+              createdAt: string;
+              /** @example */
+              updatedAt: string;
+            };
           };
         };
         /** @description Not Found */
@@ -57,7 +220,26 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json": components["schemas"]["Post"];
+          "application/json": {
+            /** @example 1 */
+            _id: string;
+            /** @example 1 */
+            userId: string;
+            /** @example 投稿本文 */
+            desc?: string;
+            /** @example https://placehold.jp/600x400.png */
+            img?: string;
+            /**
+             * @example [
+             *   "1"
+             * ]
+             */
+            likes?: (string)[];
+            /** @example */
+            createdAt: string;
+            /** @example */
+            updatedAt: string;
+          };
         };
       };
       responses: {
@@ -102,11 +284,6 @@ export interface paths {
         500: never;
       };
     };
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
   };
   "/api/posts/{id}/likes": {
     /** 投稿にいいねする */
@@ -132,11 +309,6 @@ export interface paths {
         500: never;
       };
     };
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
   };
   "/api/posts/timeline/{userId}": {
     /** タイムラインの投稿を取得する */
@@ -146,18 +318,30 @@ export interface paths {
           userId: string;
         };
       };
-      requestBody?: {
-        content: {
-          "application/json": {
-            userId: string;
-          };
-        };
-      };
       responses: {
         /** @description OK */
         200: {
           content: {
-            "application/json": (components["schemas"]["Post"])[];
+            "application/json": ({
+                /** @example 1 */
+                _id: string;
+                /** @example 1 */
+                userId: string;
+                /** @example 投稿本文 */
+                desc?: string;
+                /** @example https://placehold.jp/600x400.png */
+                img?: string;
+                /**
+                 * @example [
+                 *   "1"
+                 * ]
+                 */
+                likes?: (string)[];
+                /** @example */
+                createdAt: string;
+                /** @example */
+                updatedAt: string;
+              })[];
           };
         };
         /** @description Not Found */
@@ -166,9 +350,45 @@ export interface paths {
         500: never;
       };
     };
-    parameters: {
-      path: {
-        userId: string;
+  };
+  "/api/posts/profile/timeline/{userName}": {
+    /** プロフィールのタイムラインの投稿を取得する */
+    get: {
+      parameters: {
+        path: {
+          userName: string;
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          content: {
+            "application/json": ({
+                /** @example 1 */
+                _id: string;
+                /** @example 1 */
+                userId: string;
+                /** @example 投稿本文 */
+                desc?: string;
+                /** @example https://placehold.jp/600x400.png */
+                img?: string;
+                /**
+                 * @example [
+                 *   "1"
+                 * ]
+                 */
+                likes?: (string)[];
+                /** @example */
+                createdAt: string;
+                /** @example */
+                updatedAt: string;
+              })[];
+          };
+        };
+        /** @description Not Found */
+        404: never;
+        /** @description Internal Server Error */
+        500: never;
       };
     };
   };
@@ -183,12 +403,57 @@ export interface components {
       /** @description エラーメッセージ */
       error?: (string)[];
     };
-    /** 投稿 */
-    Post: {
-      userId: string;
+    User: {
+      /** @example 1 */
+      _id: string;
+      /** @example ユーザー名 */
+      userName: string;
+      /** @example test@test.com */
+      email: string;
+      /** @example testtest */
+      password: string;
+      /** @example sample.png */
+      profilePicture?: string;
+      /** @example sample.png */
+      coverPicture?: string;
+      /**
+       * @example [
+       *   "1"
+       * ]
+       */
+      followers?: (string)[];
+      /**
+       * @example [
+       *   "1"
+       * ]
+       */
+      followings?: (string)[];
+      /** @example false */
+      isAdmin?: boolean;
+      /** @example ユーザーの説明文 */
       desc?: string;
+      /** @example 東京都 */
+      city?: string;
+    };
+    Post: {
+      /** @example 1 */
+      _id: string;
+      /** @example 1 */
+      userId: string;
+      /** @example 投稿本文 */
+      desc?: string;
+      /** @example https://placehold.jp/600x400.png */
       img?: string;
-      likes?: (unknown)[];
+      /**
+       * @example [
+       *   "1"
+       * ]
+       */
+      likes?: (string)[];
+      /** @example */
+      createdAt: string;
+      /** @example */
+      updatedAt: string;
     };
   };
   responses: never;

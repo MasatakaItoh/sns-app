@@ -1,0 +1,32 @@
+post:
+  type: object
+  properties:
+    _id:
+      type: string
+      example: "1"
+    userId:
+      type: string
+      example: "1"
+    desc:
+      type: string
+      maxLength: 200
+      example: "投稿本文"
+    img:
+      type: string
+      example: "https://placehold.jp/600x400.png"
+    likes:
+      type: array
+      items:
+        type: string
+      example: ["1"]
+    createdAt:
+      type: string
+      example: ""
+    updatedAt:
+      type: string
+      example: ""
+  required:
+    - _id
+    - userId
+    - createdAt
+    - updatedAt

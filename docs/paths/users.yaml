@@ -1,0 +1,45 @@
+users:
+  get:
+    tags:
+      - users
+    summary: クエリでユーザー情報を取得する
+    parameters:
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/users.yaml#/user"
+      404:
+        description: Not Found
+      500:
+        description: Internal Server Error
+
+user:
+  get:
+    tags:
+      - users
+    summary: ユーザー情報を取得する
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/users.yaml#/user"
+      404:
+        description: Not Found
+      500:
+        description: Internal Server Error
